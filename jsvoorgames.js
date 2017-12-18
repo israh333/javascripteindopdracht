@@ -1,13 +1,8 @@
-var ysize= 400;
-var xsize= 400;
+var ysize= 800;
+var xsize= 800;
 var bal;
 var ballen = []; //Array waar de ballen in komen te staan
-var aantalBallen = 2;
-var dx = xpos2 - xpos1;
-var dy = ypos2 - ypos1;
-if (Math.sqrt(dx*dx + dy*dy) <= radius1 + radius2){
-  // Botsing!
-}
+var aantalBallen = 300;
 
 function setup(){
   createCanvas(xsize,ysize);
@@ -23,30 +18,23 @@ function draw(){
   var r = random(100);
   // ballen.length geeft de lengte van het ballenarray terug
   for (var i = 0; i < ballen.length; i++){
-    bal = ballen[i]; //Haal een bal uit het array
+    bal = ballen[i];
     bal.teken();
     bal.update();
-    bal.botsCheck(speler);
-
   }
 }
-
-
-  this.teken = function() {
-  ellipse(this.x, this.y,10, 10);
-}
-
 
 function Ball(xx,yy){
   this.x = xx;
   this.y = yy;
   this.speedx = 2;
-  this.speedy = 3;
-  this.botsCheck = function(speler)
+  this.speedy = 4;
 
+  this.teken = function() {
+    rect(this.x, this.y,10, 10);
+  }
 
-
-    this.update = function(){
+  this.update = function(){
     this.x += this.speedx;
     this.y += this.speedy;
 

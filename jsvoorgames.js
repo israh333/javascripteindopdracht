@@ -1,48 +1,73 @@
-var ysize= 800;
-var xsize= 800;
-var bal;
-var ballen = []; //Array waar de ballen in komen te staan
-var aantalBallen = 300;
+var koekje;
+var player_img;
+var groente;
+var score = 0;
+var toestand = "begin";
+var vorigeToestand = "";
+var toestand2 = "begin2";
+var vorigeToestand2 = "";
 
 function setup(){
-  createCanvas(xsize,ysize);
+  createCanvas(1300,600);
+  speler = new Bal();
+  koekje = new Obstakel(2);
+  groente = new Obstakel2(3);
+  player_img1 = loadImage("kinker.png");
+  player_img = loadImage("koonkjenmoounster.png");
+  player_img2 = loadImage("Broccoli.png");
 
-  for (var i = 0; i < aantalBallen; i++){
-    bal = new Ball(random(20, 380), random(20, 380), random(5, 15), random(1,10), random(1,10)); //Maak een nieuwe instantie van Bal()
-    ballen.push(bal); //Push voegt de bal aan het einde van het array toe
-  }
 }
 
 function draw(){
-  background(255);
-  var r = random(100);
-  // ballen.length geeft de lengte van het ballenarray terug
-  for (var i = 0; i < ballen.length; i++){
-    bal = ballen[i];
-    bal.teken();
-    bal.update();
+  background(255, 255, 255, 50);
+  speler.update();
+  speler.show();
+  koekje.move();
+  if (toestand != "botsing") {
+    koekje.show();
   }
-}
+  koekje.check();
+  groente.move();
+  if (toestand != "botsing") {
+    groente.show();
 
-function Ball(xx,yy){
-  this.x = xx;
-  this.y = yy;
-  this.speedx = 2;
-  this.speedy = 4;
+  }
+  groente.check();
 
-  this.teken = function() {
-    rect(this.x, this.y,10, 10);
+  var afstandX = abs(speler.x - koekje.x);
+  var afstandY = abs(speler.y - koekje.y);
+  var afstandX2 = abs(speler.x - groente.x)
+  var afstandY2 = abs(speler.y - groente.y)
+  if (afstandX < 32 && afstandY < 32) {
+    //botsing gedetecteerd
+    toestand = "botsing";
   }
 
-  this.update = function(){
-    this.x += this.speedx;
-    this.y += this.speedy;
+  if (toestand == "botsing" && vorigeToestand == "begin") {
+    score += 1;
+  }
 
-    if (this.y > (400-10) || this.y < 0){
-    this.speedy = -this.speedy;
+  if (afstandX2 < 32 && afstandY2 < 32) {
+    //botsing gedetecteerd
+    toestand2 = "botsing2";
   }
-    if (this.x > (400-10) || this.x < 0){
-    this.speedx = -this.speedx;
+
+  if (toestand2 == "botsing2" && vorigeToestand2 == begin) {
+    score -= 1;
   }
+
+  textSize (32);
+  fill(51);
+  text("score:" + score + "", 10, 30);
+
+  vorigeToestand = toestand;
+  vorigeToestand2 = toestand2
   }
-}
+
+
+ function keyPressed() {
+   if (key == ' ') {
+     speler.up();
+
+   }
+ }
